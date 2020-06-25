@@ -7,15 +7,29 @@ interface Request {
   type: 'income' | 'outcome';
 }
 
+interface Balance {
+  income: number;
+  outcome: number;
+  total: number;
+}
+
 class CreateTransactionService {
   private transactionsRepository: TransactionsRepository;
 
   constructor(transactionsRepository: TransactionsRepository) {
     this.transactionsRepository = transactionsRepository;
+
   }
 
-  public execute({title, value, type}: Request): Transaction {
-    this.transactionsRepository.create({title, value, type});
+  public execute({ title, value, type }: Request): Transaction {
+
+    const totalBalance = this.transactionsRepository.getBalance().total;
+
+    if (type == 'outcome' && value > totalBalance) throw Error('The value that you are trying to get is biggest than your balance. ');
+
+
+    return this.transactionsRepository.create({ title, value, type });
+
   }
 }
 
