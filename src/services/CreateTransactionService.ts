@@ -23,6 +23,11 @@ class CreateTransactionService {
 
   public execute({ title, value, type }: Request): Transaction {
 
+    if (!['income', 'outcome'].includes(type)) {
+        throw new Error('Transaction type ins not valid');
+
+    }
+
     const totalBalance = this.transactionsRepository.getBalance().total;
 
     if (type == 'outcome' && value > totalBalance) throw Error('The value that you are trying to get is biggest than your balance. ');

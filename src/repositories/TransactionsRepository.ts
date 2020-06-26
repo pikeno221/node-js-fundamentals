@@ -26,22 +26,30 @@ class TransactionsRepository {
 
   public getAll(): TransactionListResponse {
 
-    return ({transactions: this.transactions, balance: this.getBalance()})
+    return ({ transactions: this.transactions, balance: this.getBalance() })
 
   }
 
 
   public getBalance(): Balance {
 
+    const balance = this.transactions.reduce((accumulator, transaction) => {
 
-    //const totalOutcome = this.transactions.reduce(this.sumValue);
-    const totalOutcome = 20;
+      if (transaction.type == 'income') {
+        accumulator.income += transaction.value;
+      } else {
+        accumulator.outcome += transaction.value;
+      }
+      return accumulator;
 
-    const totalIncome = 30;
+    }, {
+        income: 0,
+        outcome: 0,
+      });
 
-    const total = totalIncome - totalOutcome;
+    const total = balance.income - balance.outcome;
 
-    return {income: totalIncome, outcome: totalOutcome, total};
+    return { income: balance.income, outcome: balance.outcome, total: total} ;
 
   }
 
