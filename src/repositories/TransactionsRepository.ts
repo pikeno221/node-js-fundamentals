@@ -13,7 +13,7 @@ interface TransactionDTO {
 }
 
 interface TransactionListResponse {
-  transaction: Transaction[],
+  transactions: Transaction[],
   balance: Balance
 }
 
@@ -24,12 +24,25 @@ class TransactionsRepository {
     this.transactions = [];
   }
 
-  public all(): TransactionListResponse {
+  public getAll(): TransactionListResponse {
+
+    return ({transactions: this.transactions, balance: this.getBalance()})
 
   }
 
+
   public getBalance(): Balance {
-    // TODO
+
+
+    //const totalOutcome = this.transactions.reduce(this.sumValue);
+    const totalOutcome = 20;
+
+    const totalIncome = 30;
+
+    const total = totalIncome - totalOutcome;
+
+    return {income: totalIncome, outcome: totalOutcome, total};
+
   }
 
   public create({ title, value, type }: TransactionDTO): Transaction {
@@ -39,6 +52,11 @@ class TransactionsRepository {
     this.transactions.push(transaction);
 
     return transaction;
+
+  }
+
+  private sumValue(actual: Transaction, value: number): number {
+    return actual.value + value;
 
   }
 }

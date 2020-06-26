@@ -24,9 +24,9 @@ transactionRouter.get('/', (request, response) => {
 transactionRouter.post('/', (request, response) => {
 
   try {
-    const { title, value, type } = request.body();
+    const { title, value, type } = request.body;
 
-    return createTransactionService.execute({ title, value, type });
+    return response.json(createTransactionService.execute({ title, value, type }));
 
   } catch (err) {
     return response.status(400).json({ error: err.message });

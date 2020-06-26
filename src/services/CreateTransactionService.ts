@@ -27,10 +27,10 @@ class CreateTransactionService {
 
     if (type == 'outcome' && value > totalBalance) throw Error('The value that you are trying to get is biggest than your balance. ');
 
-
     return this.transactionsRepository.create({ title, value, type });
 
   }
+
 }
 
 export default CreateTransactionService;
